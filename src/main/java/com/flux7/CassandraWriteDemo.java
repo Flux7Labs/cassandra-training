@@ -26,17 +26,9 @@ public class CassandraWriteDemo {
 	private static final String COLUMN_FAMILY = "users";
 	private static final String KEY_SPACE_NAME = "test";
 	
-	
-	private final long batchSize = 5;
-	
 	private ColumnFamilyTemplate<String,String> template;
 	
-	private Mutator<String> mutator ;
-	
 	private Cluster cluster;
-	
-	@SuppressWarnings("rawtypes")
-	
 	public CassandraWriteDemo() throws Exception {
 		
 		
