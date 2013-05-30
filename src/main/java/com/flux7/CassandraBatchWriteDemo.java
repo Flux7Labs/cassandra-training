@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.prettyprint.cassandra.model.ConfigurableConsistencyLevel;
+import me.prettyprint.cassandra.serializers.IntegerSerializer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.cassandra.service.CassandraHostConfigurator;
 import me.prettyprint.cassandra.service.template.ColumnFamilyTemplate;
@@ -12,6 +13,7 @@ import me.prettyprint.cassandra.service.template.ThriftColumnFamilyTemplate;
 import me.prettyprint.hector.api.Cluster;
 import me.prettyprint.hector.api.HConsistencyLevel;
 import me.prettyprint.hector.api.Keyspace;
+import me.prettyprint.hector.api.beans.HColumn;
 import me.prettyprint.hector.api.ddl.KeyspaceDefinition;
 import me.prettyprint.hector.api.factory.HFactory;
 import me.prettyprint.hector.api.mutation.Mutator;
@@ -19,19 +21,23 @@ import me.prettyprint.hector.api.mutation.Mutator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CassandraWriteDemo {
+public class CassandraBatchWriteDemo {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(CassandraWriteDemo.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CassandraBatchWriteDemo.class);
 	
 	private static final String COLUMN_FAMILY = "users";
 	private static final String KEY_SPACE_NAME = "test";
 	
+	private int batchSize = 3;
+	
 	private ColumnFamilyTemplate<String,String> template;
 	
 	private Cluster cluster;
+
+	private Mutator<String> mutator;
 	
 	
-	public CassandraWriteDemo() throws Exception {
+	public CassandraBatchWriteDemo() throws Exception {
 		
 		//List of comma separated ips of nodes
 		String cassandraNodes = "192.168.50.3:9160";
@@ -72,7 +78,7 @@ public class CassandraWriteDemo {
 					StringSerializer.get());
 		
 		// Create mutator 
-		//mutator = HFactory.createMutator(keyspace, StringSerializer.get());
+		mutator = HFactory.createMutator(keyspace, StringSerializer.get());
 
 			
 	}
@@ -85,23 +91,29 @@ public class CassandraWriteDemo {
 		template.update(updater);
 	}
 	
-//	public synchronized void batchSave(Records record, String rowKey){
-//   	
-//		
-//		HColumn<String,byte[]> column = HFactory.createColumn("column1", record.getColumn1, StringSerializer.get(), BytesArraySerializer.get());
-//		mutator.addInsertion(rowKey, COLUMN_FAMILY, column);
-//		if(mutator.getPendingMutationCount() == batchSize){
-//			mutator.execute();
-//		}
-//	}
+	public synchronized void batchSave(String rowKey,String state , String email , Integer age){
+   	
+		
+		HColumn<String,String> stateColumn = HFactory.createColumn("state", state, StringSerializer.get(), StringSerializer.get());
+		HColumn<String,String> emailColumn = HFactory.createColumn("email", email, StringSerializer.get(), StringSerializer.get());
+		HColumn<String,Integer> ageColumn = HFactory.createColumn("age", age, StringSerializer.get(), IntegerSerializer.get());
+		mutator.addInsertion(rowKey, COLUMN_FAMILY, stateColumn);
+		mutator.addInsertion(rowKey, COLUMN_FAMILY, emailColumn);
+		mutator.addInsertion(rowKey, COLUMN_FAMILY, ageColumn);
+		if(mutator.getPendingMutationCount() == batchSize){
+			mutator.execute();
+		}
+	}
 
 	public static void main(String [] args){
 		try {
 			
 			
-			CassandraWriteDemo demo = new CassandraWriteDemo();
+			CassandraBatchWriteDemo demo = new CassandraBatchWriteDemo();
 			
-			demo.save("Alex", "CA", "alex@example.com" , 27);
+			demo.batchSave("Alex", "CA", "alex@example.com" , 27);
+			demo.batchSave("BOB", "TX", "bob@example.com" , 27);
+			demo.batchSave("Brenda", "FL", "brenda@example.com" , 27);
 			
 			LOGGER.info("Record created successfully");
 			
