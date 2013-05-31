@@ -26,11 +26,11 @@ public class CassandraJDBCExample extends CassandraConfig {
 		    
 		    while(rs.next()){
 		    	
-		    	LOGGER.debug("name : {}",rs.getString(1));
-		    	LOGGER.debug("age : {}",rs.getString(2));
-		    	LOGGER.debug("email : {}",rs.getString(3));
-		    	LOGGER.debug("state : {}",rs.getString(4));
-		    	LOGGER.debug("------------");
+		    	LOGGER.info("name : {}",rs.getString(1));
+		    	LOGGER.info("age : {}",rs.getString(2));
+		    	LOGGER.info("email : {}",rs.getString(3));
+		    	LOGGER.info("state : {}",rs.getString(4));
+		    	LOGGER.info("------------");
 		    }
 
 		    statement.close();

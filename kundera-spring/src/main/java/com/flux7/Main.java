@@ -23,7 +23,6 @@ public class Main
     	System.out.println("User state : " + retrievedUser.getState());
     	
 
-    	//Get all users
-    	dao.getAllUsers();
+
     }
 }
