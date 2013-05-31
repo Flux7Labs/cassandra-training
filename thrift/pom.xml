@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.flux7</groupId>
+	<artifactId>thrift</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<properties>
+		<slf4jVersion>1.6.1</slf4jVersion>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>riptano</id>
+			<name>Riptano Repository</name>
+			<url>http://mvn.riptano.com/content/repositories/riptano/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.cassandra</groupId>
+			<artifactId>apache-cassandra</artifactId>
+			<version>0.7.0-rc2</version>
+		</dependency>
+		<dependency>
+			<groupId>libthrift</groupId>
+			<artifactId>libthrift</artifactId>
+			<version>0.5</version>
+		</dependency>
+
+<!-- 
+		<dependency>
+			<groupId>org.apache</groupId>
+			<artifactId>cassandra</artifactId>
+			<version>0.4.1</version>
+		</dependency>
+ -->
+<!-- 		<dependency>
+			<groupId>org.apache.cassandra</groupId>
+			<artifactId>cassandra-thrift</artifactId>
+			<version>1.2.5</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>libthrift</artifactId>
+					<groupId>org.apache.thrift</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency> -->
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4jVersion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4jVersion}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+
+	</dependencies>
+</project>
