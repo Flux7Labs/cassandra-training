@@ -19,7 +19,7 @@ import me.prettyprint.hector.api.factory.HFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CassandraReadDemo {
+public class CassandraReadDemo extends CassandraConfig{
 	private static final Logger LOGGER = LoggerFactory.getLogger(CassandraReadDemo.class);
 	
 	private static final String COLUMN_FAMILY = "users";
@@ -29,12 +29,10 @@ public class CassandraReadDemo {
 	
 	private Cluster cluster;
 	
-	@SuppressWarnings("rawtypes")
-	
 	public CassandraReadDemo() throws Exception {
 		
 		
-		String cassandraNodes = "192.168.50.3:9160";
+		String cassandraNodes = CASSANDRA_ADDRESS;
 
 		CassandraHostConfigurator hosts = new CassandraHostConfigurator(cassandraNodes);
 		

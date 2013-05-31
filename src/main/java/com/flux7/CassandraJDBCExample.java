@@ -8,11 +8,10 @@ import java.sql.ResultSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CassandraJDBCExample {
+public class CassandraJDBCExample extends CassandraConfig {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CassandraJDBCExample.class);
 	
 	private final static String KEYSPACE = "test";
-	private final static String CASSANDRA_ADDRESS = "192.168.50.3:9160";
 	
 	public static void main(String [] args){
 		try {

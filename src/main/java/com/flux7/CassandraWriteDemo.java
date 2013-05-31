@@ -19,7 +19,7 @@ import me.prettyprint.hector.api.mutation.Mutator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CassandraWriteDemo {
+public class CassandraWriteDemo extends CassandraConfig {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CassandraWriteDemo.class);
 	
@@ -31,10 +31,11 @@ public class CassandraWriteDemo {
 	private Cluster cluster;
 	
 	
+	
 	public CassandraWriteDemo() throws Exception {
 		
 		//List of comma separated ips of nodes
-		String cassandraNodes = "192.168.50.3:9160";
+		String cassandraNodes = CASSANDRA_ADDRESS;
 
 		CassandraHostConfigurator hosts = new CassandraHostConfigurator(cassandraNodes);
 		
@@ -71,9 +72,6 @@ public class CassandraWriteDemo {
 				keyspace, COLUMN_FAMILY, StringSerializer.get(),
 					StringSerializer.get());
 		
-		// Create mutator 
-		//mutator = HFactory.createMutator(keyspace, StringSerializer.get());
-
 			
 	}
 
@@ -85,16 +83,6 @@ public class CassandraWriteDemo {
 		template.update(updater);
 	}
 	
-//	public synchronized void batchSave(Records record, String rowKey){
-//   	
-//		
-//		HColumn<String,byte[]> column = HFactory.createColumn("column1", record.getColumn1, StringSerializer.get(), BytesArraySerializer.get());
-//		mutator.addInsertion(rowKey, COLUMN_FAMILY, column);
-//		if(mutator.getPendingMutationCount() == batchSize){
-//			mutator.execute();
-//		}
-//	}
-
 	public static void main(String [] args){
 		try {
 			

@@ -21,7 +21,7 @@ import me.prettyprint.hector.api.mutation.Mutator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CassandraBatchWriteDemo {
+public class CassandraBatchWriteDemo extends CassandraConfig {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CassandraBatchWriteDemo.class);
 	
@@ -36,11 +36,10 @@ public class CassandraBatchWriteDemo {
 
 	private Mutator<String> mutator;
 	
-	
 	public CassandraBatchWriteDemo() throws Exception {
 		
 		//List of comma separated ips of nodes
-		String cassandraNodes = "192.168.50.3:9160";
+		String cassandraNodes = CASSANDRA_ADDRESS;
 
 		CassandraHostConfigurator hosts = new CassandraHostConfigurator(cassandraNodes);
 		
