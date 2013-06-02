@@ -8,7 +8,7 @@ public class Main
     public static void main(String[] args)
     {
     	XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("applicationContext.xml"));
-    	SpringDao  dao = (SpringDao) beanFactory.getBean("springDao"); 
+    	UserDao  dao = (UserDao) beanFactory.getBean("userDao"); 
 
     	String userId = "Spring";
     	

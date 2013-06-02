@@ -14,4 +14,5 @@
             <property name="kundera.cache.config.resource" value="/ehcache-test.xml"/>   				
 		</properties>		
 	</persistence-unit>
+	
 </persistence>
