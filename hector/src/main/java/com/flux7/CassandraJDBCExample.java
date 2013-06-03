@@ -26,8 +26,8 @@ public class CassandraJDBCExample extends CassandraConfig {
 		    
 		    while(rs.next()){
 		    	
-		    	LOGGER.info("name : {}",rs.getString(1));
-		    	LOGGER.info("age : {}",rs.getString(2));
+		    	LOGGER.info("name : {}",rs.getString(1)); // 1 corresponds to the row-key
+		    	LOGGER.info("age : {}",rs.getString(2)); // 2 corresponds to the first column ...
 		    	LOGGER.info("email : {}",rs.getString(3));
 		    	LOGGER.info("state : {}",rs.getString(4));
 		    	LOGGER.info("------------");
