@@ -9,17 +9,21 @@ sudo apt-get install -y oracle-java6-installer
 sudo update-alternatives --config java
 wget http://apache.mirrors.pair.com/cassandra/1.2.5/apache-cassandra-1.2.5-src.tar.gz
 tar -xvf apache-cassandra-1.2.5-src.tar.gz 
-cd apache-cassandra-1.2.5/
+cd apache-cassandra-1.2.5-src/
 sudo apt-get install ant 
 ant 
 ant //second ant due to some issue
  
-wget http://apache.mirrors.pair.com/cassandra/1.2.5/apache-cassandra-1.2.5-bin.tar.gz
-tar -xvf apache-cassandra-1.2.5-bin.tar.gz 
-cd apache-cassandra-1.2.5/
+#wget http://apache.mirrors.pair.com/cassandra/1.2.5/apache-cassandra-1.2.5-bin.tar.gz
+#tar -xvf apache-cassandra-1.2.5-bin.tar.gz 
+#cd apache-cassandra-1.2.5/
 
+
+cd .. 
 sudo apt-get install -y python-yaml git
 git clone https://github.com/pcmanus/ccm.git
 cd ccm/
 sudo python setup.py install
-ccm create test -v 1.2.5 -n 3 -s 
+cd ..
+cd apache-cassandra-1.2.5-src/
+ccm create test -n 3 -s 
