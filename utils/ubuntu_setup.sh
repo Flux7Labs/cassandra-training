@@ -12,7 +12,7 @@ tar -xvf apache-cassandra-1.2.5-src.tar.gz
 cd apache-cassandra-1.2.5-src/
 sudo apt-get install ant 
 ant 
-ant //second ant due to some issue
+ant #second ant due to some issue
  
 #wget http://apache.mirrors.pair.com/cassandra/1.2.5/apache-cassandra-1.2.5-bin.tar.gz
 #tar -xvf apache-cassandra-1.2.5-bin.tar.gz 
