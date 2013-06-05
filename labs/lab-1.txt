@@ -5,11 +5,12 @@ wget http://apache.mirrors.lucidnetworks.net/cassandra/1.2.5/apache-cassandra-1.
 tar -zxvf apache-cassandra-1.2.5-bin.tar.gz
 cd apache-cassandra-1.2.5
 
-######################     USING Cassandra-cli        #########################
+######################     Cassandra-cli        #########################
 
 #On the Linux prompt: 
-
 ./bin/cassandra-cli
+
+#######################################################################
 
 --On cassandra-cli prompt
 
@@ -36,8 +37,8 @@ show schema;
 list users;
 
 set users['alex']['name']='alex';
-set users['alex']['email']='alex@example.com'
-set users['alex']['state']='TX'
+set users['alex']['email']='alex@example.com';
+set users['alex']['state']='TX';
 
 -- Try to insert wrong data type
 set users['alex']['age']='a7'; 
@@ -64,16 +65,16 @@ list users;
 ---------Updating column------------
 
 -- setting a value again will update it.
-set users['alex']['age'] = 27 
+set users['alex']['age'] = 27 ;
 
 --------Getting columns----------
 
 -- Get a single column 
-get users['alex']['state'] 
+get users['alex']['state'] ;
 
 -- Notice that column names are sorted because of the set comparator
 -- To get all columns of the row with id = alex
-get users['alex'] 
+get users['alex'] ;
 
 -------------Delete column------------
 
@@ -98,19 +99,21 @@ WITH comparator = UTF8Type
 AND key_validation_class=UTF8Type AND
 default_validation_class=BytesType;
 
--- Notice all of the can still be repeated 
+--Notice all of the commands used for static column families can still be repeated with dynamic column families
 
 --exit from cassandra-cli
 exit 
 
 
---#####################     Using cqlsh       #########################
+#############################     cqlsh       #########################
 
--- Note that the syntax is very similar to SQL
+# Note that cqlsh's syntax is very similar to SQL
 
--- On the linux prompt
--- 3 means version 3 of cql
+# On the linux prompt
 ./bin/cqlsh -3 
+# 3 means version 3 of cql
+
+#######################################################################
 
 -- select keyspace
 use test ; 
