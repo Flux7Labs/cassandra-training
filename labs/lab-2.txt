@@ -64,7 +64,7 @@ select * from users where state='TX' and city ='HS';
 
 
 ######################     Switch to cassandra-cli       #########################
-# switch by exitting. Don't forget to enter 'use test;' to start using your keyspace
+# switch by exiting. Don't forget to enter 'use test;' to start using your keyspace
 -- switch to cassandra-cli to view how composite columns are stored.
 
 list users; 
@@ -79,7 +79,7 @@ list users;
 
 
 ######################     Switch to cqlsh       #########################
-# switch by exitting. Don't forget to enter 'use test;' to start using your keyspace
+# switch by exiting. Don't forget to enter 'use test;' to start using your keyspace
 
 -- --------Secondary Indexes------------
 
