@@ -1,4 +1,10 @@
-using cql ;
+######################     Using cqlsh       #########################
+# just to alter the table
+
+# on linux prompt 
+cqlsh -3 
+
+# on CQL prompt
 
 alter table users add city varchar;
 
@@ -6,7 +12,8 @@ insert into users(name,email,state,age,city) values('alex','alex@example.com','C
 insert into users(name,email,state,age,city) values('bob','bob@example.com','TX',29,'HS');
 insert into users(name,email,state,age,city) values('mark','mark@example.com','TX',25,'HS');
 
-CQL does not support super columns so we have to use cassandra-cli to use them
+######################     Using cassandra-cli       #########################
+# CQL does not support super columns so we have to use cassandra-cli to use them
 
 CREATE COLUMN FAMILY users_index
 WITH comparator = UTF8Type
@@ -15,24 +22,27 @@ default_validation_class=UTF8Type AND
 column_type = 'Super' AND
 subcomparator=UTF8Type;
 
---Set super column values------
+# --Set super column values------
 set users_index['TX']['HS']['bob']='bob'
 set users_index['TX']['HS']['mark']='mark'
 set users_index['CA']['SFO']['mark']='mark'
 
 list users_index;
 
----Get Super Column Values---------
+# ---Get Super Column Values---------
 
 get users_index['TX']['HS']
 
--- Delete Super Column Values----------
+# -- Delete Super Column Values----------
 
 del users_index['TX']['HS']
 
----Composite Columns-----
+######################     Using cqlsh       #########################
 
-using cqlsh -3
+# On linux prompt 
+cqlsh -3
+
+# ---Composite Columns-----
 
 drop table users;
 
@@ -53,10 +63,15 @@ select * from users where state='TX';
 
 select * from users where state='TX' and name='bob';
 
-select * from users where state='TX' and city ='HS';  wont work because HS is not part of primary key
+# try going out of order on columns
+select * from users where state='TX' and city ='HS';  
 
-switch to cassandra-cli and run 'list users' to show how composite columns are stored.
---------Secondary Indexes------------
+# switch to cassandra-cli and run 'list users' to show how composite columns are stored.
+
+# --------Secondary Indexes------------
+
+######################     Using cqlsh       #########################
+
 drop table users;
 create table users(
 	name varchar PRIMARY KEY,
@@ -72,6 +87,7 @@ insert into users(name,email,state,age,city) values('mark','mark@example.com','T
 
 
 select * from users where state='CA'; will throw an error
+
 create index user_state on users(state);
 
 select * from users where state='CA';  will work now
