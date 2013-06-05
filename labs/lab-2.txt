@@ -1,10 +1,12 @@
 
-######################     Using cassandra-cli       #########################
+######################     Switch to cassandra-cli       #########################
 
 # on linux prompt 
 ./bin/cassandra-cli
 
 -- CQL does not support super columns so we have to use cassandra-cli to use them
+
+use test;
 
 CREATE COLUMN FAMILY users_index
 WITH comparator = UTF8Type
@@ -28,7 +30,7 @@ get users_index['TX']['HS'];
 
 del users_index['TX']['HS'];
 
-######################     Using cqlsh       #########################
+######################     Switch to cqlsh       #########################
 
 # On linux prompt 
 ./bin/cqlsh -3
@@ -61,8 +63,10 @@ select * from users where state='TX' and city ='HS';
 -- No indexed columns present in by-columns clause with Equal operator
 
 
-######################     Using cassandra-cli       #########################
+######################     Switch to cassandra-cli       #########################
+# switch by exitting. Don't forget to enter 'use test;' to start using your keyspace
 -- switch to cassandra-cli to view how composite columns are stored.
+
 list users; 
 
 -- It will show multiple rows that should look like this: 
@@ -74,7 +78,8 @@ list users;
 -- => (column=alex:email, value=616c6578406578616d706c652e636f6d, timestamp=1370421766389000)
 
 
-######################     Using cqlsh       #########################
+######################     Switch to cqlsh       #########################
+# switch by exitting. Don't forget to enter 'use test;' to start using your keyspace
 
 -- --------Secondary Indexes------------
 
