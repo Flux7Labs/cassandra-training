@@ -126,9 +126,8 @@ drop table users;
 
 -- delete entire keyspace and re-create it 
 drop keyspace test;
-create keyspace test WITH
-     strategy_class = 'SimpleStrategy'
-     AND strategy_options:replication_factor = '1';
+
+create keyspace test WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor': 1 };
 
 -- re-create users table
 create table users(
