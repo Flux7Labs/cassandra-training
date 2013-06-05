@@ -91,7 +91,7 @@ list users;
 -- ----- Creating a dynamic column family ------
 
 
-drop table users;
+drop column family users;
 
 CREATE COLUMN FAMILY users
 WITH comparator = UTF8Type
