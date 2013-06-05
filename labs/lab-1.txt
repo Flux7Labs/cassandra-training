@@ -11,15 +11,15 @@ cd apache-cassandra-1.2.5
 
 ./bin/cassandra-cli
 
-#One cassandra-cli prompt
+--On cassandra-cli prompt
 
-#create a keyspace
+--create a keyspace
 create keyspace test;
 
-#set the keyspace 
+--set the keyspace 
 use test;
 
-#--------Create Static Column Family-------------
+--------Create Static Column Family-------------
 
 CREATE COLUMN FAMILY users
 WITH comparator = UTF8Type
@@ -39,92 +39,95 @@ set users['alex']['name']='alex';
 set users['alex']['email']='alex@example.com'
 set users['alex']['state']='TX'
 
-# Try to insert wrong data type
+-- Try to insert wrong data type
 set users['alex']['age']='a7'; 
 
-# You should see: java.lang.RuntimeException: org.apache.cassandra.db.marshal.MarshalException: unable to make int from 'TX'
+-- You should see: java.lang.RuntimeException: org.apache.cassandra.db.marshal.MarshalException: unable to make int from 'TX'
 
 set users['alex']['age']='27';
 
-# list again and show all columns we created and the timestamp field appended to each column.
+-- list again and show all columns we created and the timestamp field appended to each column.
 list users;  
 
-#-----Setting Column with TTL-------------
+-----Setting Column with TTL-------------
 
 set users['Dave Jones']['email']='dave@email.com' with ttl=5;
 
 list users; 
 
-# Wait 5 seconds 
+-- Wait 5 seconds 
 
 list users;
 
-# column has been removed.
+-- column has been removed.
 
-#---------Updating column------------
+---------Updating column------------
 
-# setting a value again will update it.
+-- setting a value again will update it.
 set users['alex']['age'] = 27 
 
-#--------Getting columns----------
+--------Getting columns----------
 
-# Get a single column 
+-- Get a single column 
 get users['alex']['state'] 
 
-# Notice that column names are sorted because of the set comparator
-# To get all columns of the row with id = alex
+-- Notice that column names are sorted because of the set comparator
+-- To get all columns of the row with id = alex
 get users['alex'] 
 
-#-----------Delete column------------
+-------------Delete column------------
 
 del users['alex']['age'];
 list users;
 
-#delete entire row
+--delete entire row
 del users['alex'];
 list users; 
 
-# NOTICE: The row id will still be there, this is due to the tombstone
+-- NOTICE: The row id will still be there, this is due to the tombstone
 
 
 
-# ----- Creating a dynamic column family ------
+-- ----- Creating a dynamic column family ------
+
+
+drop table users;
 
 CREATE COLUMN FAMILY users
 WITH comparator = UTF8Type
 AND key_validation_class=UTF8Type AND
 default_validation_class=BytesType;
 
-# Notice all of the can still be repeated 
+-- Notice all of the can still be repeated 
 
-#exit from cassandra-cli
+--exit from cassandra-cli
 exit 
 
 
-######################     Using cqlsh       #########################
+--#####################     Using cqlsh       #########################
 
-# Note that the syntax is very similar to SQL
+-- Note that the syntax is very similar to SQL
 
-# On the linux prompt
-# 3 means version 3 of cql
+-- On the linux prompt
+-- 3 means version 3 of cql
 ./bin/cqlsh -3 
 
-# select keyspace
+-- select keyspace
 use test ; 
 
-# list all tables
+-- list all tables
 describe tables ; 
 
-# drop the table users 
+-- drop the table users 
 drop table users;
 
-# delete entire keyspace and re-create it 
+-- delete entire keyspace and re-create it 
 drop keyspace test;
 create keyspace test WITH
      strategy_class = 'SimpleStrategy'
      AND strategy_options:replication_factor = '1';
 
-# re-create users table
+-- re-create users table
 create table users(
 	name varchar PRIMARY KEY,
 	email varchar,
@@ -134,26 +137,26 @@ create table users(
 
 select * from users;
 
-# --------Insert and update records----------
+-- --------Insert and update records----------
 
 insert into users(name,email,state,age) values('alex','alex@example.com','CA',27);
 
-# Unlike SQL, instead of giving an error, a second insertion just overwrites the previosu value 
+-- Unlike SQL, instead of giving an error, a second insertion just overwrites the previosu value 
 
 insert into users(name,email,state,age) values('alex','alex@example.com','CA',33);  
 
-# -----Selecting columns-----
+-- -----Selecting columns-----
 
 select * from users;
 select email from users;
 
-# -----Deleting----------
+-- -----Deleting----------
 
 delete from users where name='alex';
 
 
 select * from users where state='CA';
 
-# Notice the error: Bad Request: No indexed columns present in by-columns clause with Equal operator
+-- Notice the error: Bad Request: No indexed columns present in by-columns clause with Equal operator
 
 
