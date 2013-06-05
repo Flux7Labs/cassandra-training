@@ -1,10 +1,17 @@
+# Download Cassandra-binaries 
+# On Linux prompt, type 
+
+wget http://apache.mirrors.lucidnetworks.net/cassandra/1.2.5/apache-cassandra-1.2.5-bin.tar.gz
+tar -zxvf apache-cassandra-1.2.5-bin.tar.gz
+cd apache-cassandra-1.2.5-bin.tar.gz
+
 ######################     USING Cassandra-cli        #########################
 
-On the Linux prompt: 
+#On the Linux prompt: 
 
 cassandra-cli
 
-One cassandra-cli prompt
+#One cassandra-cli prompt
 
 #create a keyspace
 create keyspace test;
@@ -109,11 +116,13 @@ use test ;
 describe tables ; 
 
 # drop the table users 
-drop users;
+drop table users;
 
 # delete entire keyspace and re-create it 
-TODO : How is keyspace deleted? 
-
+drop keyspace test;
+create keyspace test WITH
+     strategy_class = 'SimpleStrategy'
+     AND strategy_options:replication_factor = '1';
 
 # re-create users table
 create table users(
