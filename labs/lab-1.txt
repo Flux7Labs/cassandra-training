@@ -9,7 +9,7 @@ cd apache-cassandra-1.2.5
 
 #On the Linux prompt: 
 
-cassandra-cli
+./bin/cassandra-cli
 
 #One cassandra-cli prompt
 
@@ -107,7 +107,7 @@ exit
 
 # On the linux prompt
 # 3 means version 3 of cql
-cqlsh -3 
+./bin/cqlsh -3 
 
 # select keyspace
 use test ; 
