@@ -56,13 +56,22 @@ select * from users where state='TX';
 
 select * from users where state='TX' and name='bob';
 
--- try going out of order on columns
+-- try going out of order on columns, this will throw an error
 select * from users where state='TX' and city ='HS';  
+-- No indexed columns present in by-columns clause with Equal operator
 
 
 ######################     Using cassandra-cli       #########################
 -- switch to cassandra-cli to view how composite columns are stored.
 list users; 
+
+-- It will show multiple rows that should look like this: 
+
+-- RowKey: CA
+-- => (column=alex:, value=, timestamp=1370421766389000)
+-- => (column=alex:age, value=0000001b, timestamp=1370421766389000)
+-- => (column=alex:city, value=53464f, timestamp=1370421766389000)
+-- => (column=alex:email, value=616c6578406578616d706c652e636f6d, timestamp=1370421766389000)
 
 
 ######################     Using cqlsh       #########################
@@ -70,6 +79,7 @@ list users;
 -- --------Secondary Indexes------------
 
 drop table users;
+
 create table users(
 	name varchar PRIMARY KEY,
 	email varchar,
@@ -82,8 +92,12 @@ insert into users(name,email,state,age,city) values('alex','alex@example.com','C
 insert into users(name,email,state,age,city) values('bob','bob@example.com','TX',29,'HS');
 insert into users(name,email,state,age,city) values('mark','mark@example.com','TX',25,'HS');
 
+-- will throw an error
+select * from users where state='CA';  
 
-select * from users where state='CA';  -- will throw an error
-
+-- create the index
 create index user_state on users(state);
-select * from users where state='CA';   -- will work now
+
+-- will work now
+select * from users where state='CA';   
+
