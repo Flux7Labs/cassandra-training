@@ -35,6 +35,8 @@ del users_index['TX']['HS'];
 
 -- ---Composite Columns-----
 
+use test;
+
 drop table users;
 
 create table users(
