@@ -3,7 +3,7 @@
 
 wget http://apache.mirrors.lucidnetworks.net/cassandra/1.2.5/apache-cassandra-1.2.5-bin.tar.gz
 tar -zxvf apache-cassandra-1.2.5-bin.tar.gz
-cd apache-cassandra-1.2.5-bin.tar.gz
+cd apache-cassandra-1.2.5-bin
 
 ######################     USING Cassandra-cli        #########################
 
