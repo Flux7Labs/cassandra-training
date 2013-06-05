@@ -5,7 +5,7 @@ wget http://apache.mirrors.lucidnetworks.net/cassandra/1.2.5/apache-cassandra-1.
 tar -zxvf apache-cassandra-1.2.5-bin.tar.gz
 cd apache-cassandra-1.2.5
 
-######################     Cassandra-cli        #########################
+######################     Cassandra-cli        #######################
 
 #On the Linux prompt: 
 ./bin/cassandra-cli
@@ -102,7 +102,7 @@ default_validation_class=BytesType;
 --Notice all of the commands used for static column families can still be repeated with dynamic column families
 
 --exit from cassandra-cli
-exit 
+exit;
 
 
 #############################     cqlsh       #########################

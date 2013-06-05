@@ -1,5 +1,5 @@
 
-######################     Switch to cassandra-cli       #########################
+################     Switch to cassandra-cli       ####################
 
 # on linux prompt 
 ./bin/cassandra-cli
@@ -30,7 +30,7 @@ get users_index['TX']['HS'];
 
 del users_index['TX']['HS'];
 
-######################     Switch to cqlsh       #########################
+######################     Switch to cqlsh       ########################
 
 # On linux prompt 
 ./bin/cqlsh -3
@@ -63,7 +63,7 @@ select * from users where state='TX' and city ='HS';
 -- No indexed columns present in by-columns clause with Equal operator
 
 
-######################     Switch to cassandra-cli       #########################
+#################     Switch to cassandra-cli       ####################
 # switch by exiting. Don't forget to enter 'use test;' to start using your keyspace
 -- switch to cassandra-cli to view how composite columns are stored.
 
@@ -78,7 +78,7 @@ list users;
 -- => (column=alex:email, value=616c6578406578616d706c652e636f6d, timestamp=1370421766389000)
 
 
-######################     Switch to cqlsh       #########################
+#####################     Switch to cqlsh       #######################
 # switch by exiting. Don't forget to enter 'use test;' to start using your keyspace
 
 -- --------Secondary Indexes------------
