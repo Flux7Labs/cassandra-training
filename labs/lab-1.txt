@@ -44,7 +44,7 @@ set users['alex']['age']='a7';
 
 # You should see: java.lang.RuntimeException: org.apache.cassandra.db.marshal.MarshalException: unable to make int from 'TX'
 
-set users['alex']['age']='27'
+set users['alex']['age']='27';
 
 # list again and show all columns we created and the timestamp field appended to each column.
 list users;  
