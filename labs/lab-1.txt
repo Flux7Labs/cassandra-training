@@ -162,3 +162,10 @@ select * from users where state='CA';
 -- Notice the error: Bad Request: No indexed columns present in by-columns clause with Equal operator
 
 
+-- alter table to add a column 
+
+alter table users add city varchar;
+
+insert into users(name,email,state,age,city) values('alex','alex@example.com','CA',27,'SFO');
+insert into users(name,email,state,age,city) values('bob','bob@example.com','TX',29,'HS');
+insert into users(name,email,state,age,city) values('mark','mark@example.com','TX',25,'HS');
