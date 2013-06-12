@@ -1,0 +1,56 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$script = <<SCRIPT
+	echo "Clearing iptables"
+	iptables -F		
+SCRIPT
+
+Vagrant.configure("2") do |config|
+
+	config.vm.define :cassandra_seed do |cassandra_seed|
+	    cassandra_seed.vm.box = "centos6.3"
+		cassandra_seed.vm.box_url = "https://dl.dropbox.com/u/7225008/Vagrant/CentOS-6.3-x86_64-minimal.box"
+		cassandra_seed.vm.network :private_network, ip: "192.168.50.3"
+
+	    cassandra_seed.vm.provision :shell, :inline => $script
+		cassandra_seed.vm.provision :chef_solo do |chef|
+		  	chef.add_recipe "chef_upgrade"					
+		end
+		cassandra_seed.vm.provision :chef_solo do |chef|
+			chef.add_recipe "java::oracle"
+			chef.add_recipe "cassandra"			
+		end
+	end
+	
+	config.vm.define :cassandra do |cassandra|
+	    cassandra.vm.box = "centos6.3"
+		cassandra.vm.box_url = "https://dl.dropbox.com/u/7225008/Vagrant/CentOS-6.3-x86_64-minimal.box"
+		cassandra.vm.network :private_network, ip: "192.168.50.4"
+	    config.vm.provision :shell, :inline => $script
+		cassandra.vm.provision :chef_solo do |chef|
+		  	chef.add_recipe "chef_upgrade"					
+		end
+		cassandra.vm.provision :chef_solo do |chef|
+			chef.add_recipe "java::oracle"
+			chef.add_recipe "cassandra"			
+		end
+	end
+	
+	config.vm.define :cassandra_1 do |cassandra_1|
+	    cassandra_1.vm.box = "centos6.3"
+		cassandra_1.vm.box_url = "https://dl.dropbox.com/u/7225008/Vagrant/CentOS-6.3-x86_64-minimal.box"
+		cassandra_1.vm.network :private_network, ip: "192.168.50.5"
+	    cassandra_1.vm.provision :shell, :inline => $script
+		cassandra_1.vm.provision :chef_solo do |chef|
+		  	chef.add_recipe "chef_upgrade"					
+		end
+		cassandra_1.vm.provision :chef_solo do |chef|
+			chef.add_recipe "java::oracle"
+			chef.add_recipe "cassandra"			
+		end
+	end
+	
+	
+
+end
