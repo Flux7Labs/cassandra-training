@@ -1,5 +1,23 @@
+# Download Cassandra-binaries 
+# On Linux prompt, type 
+
+wget http://apache.mirrors.lucidnetworks.net/cassandra/1.2.5/apache-cassandra-1.2.5-bin.tar.gz
+tar -zxvf apache-cassandra-1.2.5-bin.tar.gz
+cd apache-cassandra-1.2.5
+
+######################     Cassandra-cli        #######################
+
+#On the Linux prompt: 
+./bin/cassandra-cli
+
+#######################################################################
+
+--On cassandra-cli prompt
+
+--create a keyspace
 create keyspace test;
 
+--set the keyspace 
 use test;
 
 --------Create Static Column Family-------------
@@ -19,63 +37,99 @@ show schema;
 list users;
 
 set users['alex']['name']='alex';
-set users['alex']['email']='alex@example.com'
-set users['alex']['state']='TX'
-set users['alex']['age']='a7';   -- Just to show wrong data type error
+set users['alex']['email']='alex@example.com';
+set users['alex']['state']='TX';
 
-java.lang.RuntimeException: org.apache.cassandra.db.marshal.MarshalException: unable to make int from 'TX'
+-- Try to insert wrong data type
+set users['alex']['age']='a7'; 
 
-set users['alex']['age']='27'
+-- You should see: java.lang.RuntimeException: org.apache.cassandra.db.marshal.MarshalException: unable to make int from 'TX'
 
-list users;  -> list again and show all columns we created and the timestamp field appended to each column.
+set users['alex']['age']='27';
+
+-- list again and show all columns we created and the timestamp field appended to each column.
+list users;  
 
 -----Setting Column with TTL-------------
+
 set users['Dave Jones']['email']='dave@email.com' with ttl=5;
 
-list users : show the column 
+list users; 
 
-after 5 seconds : 'list users' again to show that column has been removed.
+-- Wait 5 seconds 
+
+list users;
+
+-- column has been removed.
 
 ---------Updating column------------
-set users['alex']['age'] = 27 , setting value again will update it.
 
------Get Records----------
+-- setting a value again will update it.
+set users['alex']['age'] = 27 ;
 
-get users['alex'] to get all columns of the row with id = alex
+--------Getting columns----------
 
-get users['alex']['state'] to get the state column only : mention columns names to be listed in alphabetically order because of the set comparator
+-- Get a single column 
+get users['alex']['state'] ;
 
------------Delete column------------
+-- Notice that column names are sorted because of the set comparator
+-- To get all columns of the row with id = alex
+get users['alex'] ;
+
+-------------Delete column------------
 
 del users['alex']['age'];
+list users;
 
-list users : to show column has been removed.
-
+--delete entire row
 del users['alex'];
+list users; 
+
+-- NOTICE: The row id will still be there, this is due to the tombstone
 
 
 
+-- ----- Creating a dynamic column family ------
 
-#################################################################
 
-Creating a dynamic column family
+drop column family users;
 
 CREATE COLUMN FAMILY users
 WITH comparator = UTF8Type
 AND key_validation_class=UTF8Type AND
 default_validation_class=BytesType;
 
-All operations remain same;
+--Notice all of the commands used for static column families can still be repeated with dynamic column families
 
-######################     USING CQL            #########################
+--exit from cassandra-cli
+exit;
 
-cqlsh -3 (  3 means version 3 of cql)
 
-use test ; select keyspace
+#############################     cqlsh       #########################
 
-describe tables ; list all tables
+# Note that cqlsh's syntax is very similar to SQL
 
-------lets drop users table and create again using cql-----
+# On the linux prompt
+./bin/cqlsh -3 
+# 3 means version 3 of cql
+
+#######################################################################
+
+-- select keyspace
+use test ; 
+
+-- list all tables
+describe tables ; 
+
+-- drop the table users 
+drop table users;
+
+-- delete entire keyspace and re-create it 
+drop keyspace test;
+
+create keyspace test WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor': 1 };
+
+-- re-create users table
 create table users(
 	name varchar PRIMARY KEY,
 	email varchar,
@@ -83,23 +137,35 @@ create table users(
 	age int
 );
 
-select * from users ; will show empty
+select * from users;
 
---------Insert records----------
+-- --------Insert and update records----------
 
 insert into users(name,email,state,age) values('alex','alex@example.com','CA',27);
-insert into users(name,email,state,age) values('alex','alex@example.com','CA',33);  In RDBMS inserting again with same primary key is not allowed , but for cassandra insertion and update is same operation
 
------Selecting-----
+-- Unlike SQL, instead of giving an error, a second insertion just overwrites the previosu value 
+
+insert into users(name,email,state,age) values('alex','alex@example.com','CA',33);  
+
+-- -----Selecting columns-----
+
 select * from users;
 select email from users;
 
------Deleting----------
+-- -----Deleting----------
+
 delete from users where name='alex';
 
 
-Show Indexing Problem :
 select * from users where state='CA';
-Bad Request: No indexed columns present in by-columns clause with Equal operator
+
+-- Notice the error: Bad Request: No indexed columns present in by-columns clause with Equal operator
 
 
+-- alter table to add a column 
+
+alter table users add city varchar;
+
+insert into users(name,email,state,age,city) values('alex','alex@example.com','CA',27,'SFO');
+insert into users(name,email,state,age,city) values('bob','bob@example.com','TX',29,'HS');
+insert into users(name,email,state,age,city) values('mark','mark@example.com','TX',25,'HS');
